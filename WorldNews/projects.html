@@ -78,8 +78,9 @@
 							  function drawRegionsMap() {
 								var data = new google.visualization.DataTable();
 								data.addColumn('string', 'Country'); // Implicit domain label col.
-								data.addColumn('number', 'Value'); // Implicit series 1 data col.
+								data.addColumn('number', 'Value');
 								data.addColumn({type:'string', role:'tooltip'}); // 
+							
 
 
 								data.addRows([
@@ -92,9 +93,18 @@
 											   keepAspectRatio: 'True',}
 
 								var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+								google.visualization.events.addListener(chart, 'select', function () {
 
-								chart.draw(data, options);
-							  }
+									var selection = chart.getSelection();
+									if (selection.length > 0) {
+
+										data_link = data.getValue(selection[0].row,2);
+
+										window.open(data_link.split("Link").at(-1));
+									}
+									});
+									chart.draw(data, options);
+							  		}
 							</script>
 						  </div>
 						  <body>
